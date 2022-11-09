@@ -1,4 +1,4 @@
-const questionsArray = [
+export const questionsArray = [
   {
     id: "1",
     question: "A friend asks you to study after school, what do you say?",
