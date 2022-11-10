@@ -3,7 +3,7 @@
   text-align: center;
 }
 
-.card-container {
+.container {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
@@ -32,4 +32,16 @@
   width: 40%;
   margin: 1em;
   cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+#results {
+  z-index: 10;
+  height: 50%;
+  width: 50%;
+  background-color: white;
+  text-align: center;
 }
