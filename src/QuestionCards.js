@@ -1,92 +1,164 @@
 import React, { useState, useEffect } from "react";
-import questionsArray from "../data/personalityQuestions";
+import questionsArray from "../data/questionsArray";
+import "./styles.css";
 
 export default function QuestionCards() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [showScore, setShowScore] = useState();
-  const [score, setScore] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
+  const [nature, setNature] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
+  const [month, setMonth] = useState();
+  const [catchphrase, setCatchphrase] = useState();
+  const [villagerData, setVillagerData] = useState([]);
+  const [personalityDone, setPersonalityDone] = useState(false);
+  const [birthdayWasClicked, setBirthdayWasClicked] = useState(false);
+  const [catchphraseWasClicked, setCatchphraseWasClicked] = useState(false);
+  const [villagerFinal, setVillagerFinal] = useState();
+  const [villagerImage, setVillagerImage] = useState();
+
   useEffect(() => {
-    console.log(score);
-  }, [score]);
+    console.log(villagerData);
+  }, [villagerData]);
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch("https://acnhapi.com/v1a/villagers");
+      const data = await response.json();
+      if (birthdayWasClicked) {
+        setVillagerData(
+          data
+            .map((obj) => ({
+              name: obj.name["name-USen"],
+              personality: obj.personality,
+              birthday: obj["birthday-string"].split(" ")[0],
+              catchphrase: obj["catch-phrase"],
+              image: obj["image_uri"]
+            }))
+            .filter((obj) => {
+              return obj.personality === nature;
+            })
+            .filter((obj) => {
+              return obj.birthday === month;
+            })
+        );
+        console.log(villagerData);
+      }
+    }
+    getData();
+  }, [birthdayWasClicked]);
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch("https://acnhapi.com/v1a/villagers");
+      const data = await response.json();
+      if (catchphraseWasClicked) {
+        setVillagerData(
+          villagerData.filter((obj) => {
+            return obj.catchphrase === catchphrase;
+          })
+        );
+      }
+    }
+    getData();
+  }, [catchphraseWasClicked]);
+  //
+
+  function personalityResults() {
+    const max = Math.max(...nature);
+    const index = nature.indexOf(max);
+    if (index === 0) {
+      setNature("Lazy");
+    } else if (index === 1) {
+      setNature("Jock");
+    } else if (index === 2) {
+      setNature("Cranky");
+    } else if (index === 3) {
+      setNature("Smug");
+    } else if (index === 4) {
+      setNature("Normal");
+    } else if (index === 5) {
+      setNature("Peppy");
+    } else if (index === 6) {
+      setNature("Snooty");
+    } else if (index === 7) {
+      setNature("Uchi");
+    }
+  }
+
   const handleAnswerOptionClick = (personality) => {
     if (personality === "lazy") {
-      let lazyScore = [1, 0, 0, 0, 0, 0, 0, 0];
-      let newScore = score.map((a, i) => a + lazyScore[i]);
-      setScore(newScore);
+      let lazyNature = [1, 0, 0, 0, 0, 0, 0, 0];
+      let newNature = nature.map((a, i) => a + lazyNature[i]);
+      setNature(newNature);
     } else if (personality === "jock") {
-      let jockScore = [0, 1, 0, 0, 0, 0, 0, 0];
-      let newScore = score.map((a, i) => a + jockScore[i]);
-      setScore(newScore);
+      let jockNature = [0, 1, 0, 0, 0, 0, 0, 0];
+      let newNature = nature.map((a, i) => a + jockNature[i]);
+      setNature(newNature);
     } else if (personality === "cranky") {
-      let crankyScore = [0, 0, 1, 0, 0, 0, 0, 0];
-      let newScore = score.map((a, i) => a + crankyScore[i]);
-      setScore(newScore);
+      let crankyNature = [0, 0, 1, 0, 0, 0, 0, 0];
+      let newNature = nature.map((a, i) => a + crankyNature[i]);
+      setNature(newNature);
     } else if (personality === "smug") {
-      let smugScore = [0, 0, 0, 1, 0, 0, 0, 0];
-      let newScore = score.map((a, i) => a + smugScore[i]);
-      setScore(newScore);
+      let smugNature = [0, 0, 0, 1, 0, 0, 0, 0];
+      let newNature = nature.map((a, i) => a + smugNature[i]);
+      setNature(newNature);
     } else if (personality === "normal") {
-      let normalScore = [0, 0, 0, 0, 1, 0, 0, 0];
-      let newScore = score.map((a, i) => a + normalScore[i]);
-      setScore(newScore);
+      let normalNature = [0, 0, 0, 0, 1, 0, 0, 0];
+      let newNature = nature.map((a, i) => a + normalNature[i]);
+      setNature(newNature);
     } else if (personality === "peppy") {
-      let peppyScore = [0, 0, 0, 0, 0, 1, 0, 0];
-      let newScore = score.map((a, i) => a + peppyScore[i]);
-      setScore(newScore);
+      let peppyNature = [0, 0, 0, 0, 0, 1, 0, 0];
+      let newNature = nature.map((a, i) => a + peppyNature[i]);
+      setNature(newNature);
     } else if (personality === "snooty") {
-      let snootyScore = [0, 0, 0, 0, 0, 0, 1, 0];
-      let newScore = score.map((a, i) => a + snootyScore[i]);
-      setScore(newScore);
-    } else if (personality === "sisterly") {
-      let sisterlyScore = [0, 0, 0, 0, 0, 0, 0, 1];
-      let newScore = score.map((a, i) => a + sisterlyScore[i]);
-      setScore(newScore);
+      let snootyNature = [0, 0, 0, 0, 0, 0, 1, 0];
+      let newNature = nature.map((a, i) => a + snootyNature[i]);
+      setNature(newNature);
+    } else if (personality === "uchi") {
+      let uchiNature = [0, 0, 0, 0, 0, 0, 0, 1];
+      let newNature = nature.map((a, i) => a + uchiNature[i]);
+      setNature(newNature);
     }
-    //I need to fix the setScore max method. What if there are 2 indices that have the max number?
     const nextQuestion = currentQuestion + 1;
-    const max = Math.max(...score);
-    const index = score.indexOf(max);
-    if (nextQuestion < questionsArray.length) {
+    if (nextQuestion <= 5) {
       setCurrentQuestion(nextQuestion);
-    } else if (nextQuestion >= questionsArray.length && index === 0) {
-      setScore("Lazy");
-      document.getElementById("results").classList.remove("hide");
-      document.getElementById("question-container").classList.add("blur");
-    } else if (nextQuestion >= questionsArray.length && index === 1) {
-      setScore("Jock");
-      document.getElementById("results").classList.remove("hide");
-      document.getElementById("question-container").classList.add("blur");
-    } else if (nextQuestion >= questionsArray.length && index === 2) {
-      setScore("Cranky");
-      document.getElementById("results").classList.remove("hide");
-      document.getElementById("question-container").classList.add("blur");
-    } else if (nextQuestion >= questionsArray.length && index === 3) {
-      setScore("Smug");
-      document.getElementById("results").classList.remove("hide");
-      document.getElementById("question-container").classList.add("blur");
-    } else if (nextQuestion >= questionsArray.length && index === 4) {
-      setScore("Normal");
-      document.getElementById("results").classList.remove("hide");
-      document.getElementById("question-container").classList.add("blur");
-    } else if (nextQuestion >= questionsArray.length && index === 5) {
-      setScore("Peppy");
-      document.getElementById("results").classList.remove("hide");
-      document.getElementById("question-container").classList.add("blur");
-    } else if (nextQuestion >= questionsArray.length && index === 6) {
-      setScore("Snooty");
-      document.getElementById("results").classList.remove("hide");
-      document.getElementById("question-container").classList.add("blur");
-    } else if (nextQuestion >= questionsArray.length && index === 7) {
-      setScore("Sisterly");
-      document.getElementById("results").classList.remove("hide");
-      document.getElementById("question-container").classList.add("blur");
+    } else if (nextQuestion > 5 && nextQuestion < 10) {
+      setCurrentQuestion(nextQuestion);
+      document.getElementById("personality-container").classList.add("hide");
+      document
+        .getElementById("image-questions-container")
+        .classList.remove("hide");
+    } else if (nextQuestion >= 10) {
+      personalityResults();
+      document
+        .getElementById("image-questions-container")
+        .classList.add("hide");
+      document.getElementById("month-container").classList.remove("hide");
     }
   };
+  const handleBirthdayAnswer = (birthday) => {
+    setMonth(birthday);
+    setBirthdayWasClicked(true);
+    console.log(villagerData);
+    document.getElementById("month-container").classList.add("hide");
+    document.getElementById("catchphrase-container").classList.remove("hide");
+  };
+  const handleCatchphraseAnswer = (catchphrases) => {
+    setCatchphrase(catchphrases);
+    setCatchphraseWasClicked(true);
+    console.log(villagerData);
+    document.getElementById("catchphrase-container").classList.add("hide");
+    document.getElementById("results").classList.remove("hide");
+  };
+
+  const finalAnswer = () => {
+    setVillagerFinal(villagerData[0].name);
+    setVillagerImage(villagerData[0].image);
+  };
+
   //
   //
   return (
-    <div className="container">
-      <div id="question-container">
+    <div className="large-container">
+      <div id="personality-container" className="container">
         <div className="question">
           <h1>{questionsArray[currentQuestion].question}</h1>
         </div>
@@ -94,7 +166,7 @@ export default function QuestionCards() {
           {questionsArray[currentQuestion].answers.map((answerOption) => (
             <button
               className="individual-answer"
-              key={answerOption.personality}
+              key={answerOption.id}
               onClick={() => handleAnswerOptionClick(answerOption.personality)}
             >
               {answerOption.answerText}
@@ -102,8 +174,63 @@ export default function QuestionCards() {
           ))}
         </div>
       </div>
-      <div className="hide" id="results">
-        <h1>You have a {score} personality!</h1>
+      {/* These are the image questions 7-10*/}
+      <div id="image-questions-container" className="container hide">
+        <div className="question">
+          <h1>{questionsArray[currentQuestion].question}</h1>
+        </div>
+        <div className="answers">
+          {questionsArray[currentQuestion].answers.map((answerOption) => (
+            <img
+              src={answerOption.answerText}
+              alt={answerOption.personality}
+              className="individual-answer"
+              key={answerOption.id}
+              onClick={() => handleAnswerOptionClick(answerOption.personality)}
+            />
+          ))}
+        </div>
+      </div>
+      {/* This is the Month Question */}
+      <div id="month-container" className="hide container">
+        <div className="question">
+          <h1>{questionsArray[10].question}</h1>
+        </div>
+        <div className="answers">
+          {questionsArray[10].answers.map((answerOption) => (
+            <button
+              className="individual-answer"
+              key={answerOption.id}
+              onClick={() => handleBirthdayAnswer(answerOption.answerText)}
+            >
+              {answerOption.answerText}
+            </button>
+          ))}
+        </div>
+      </div>
+      {/* This is the Catchphrase Question */}
+      <div id="catchphrase-container" className="hide container">
+        <div className="question">
+          <h1>Choose a Catchphrase</h1>
+        </div>
+        <div className="answers">
+          {villagerData.map((object) => (
+            <button
+              className="individual-answer"
+              key={object.catchphrase}
+              onClick={(event) => {
+                handleCatchphraseAnswer(object.catchphrase);
+                finalAnswer();
+              }}
+            >
+              {object.catchphrase}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div id="results" className="hide">
+        <h1>Your villager is {villagerFinal}!</h1>
+        <img src={villagerImage} alt="villager" />
       </div>
     </div>
   );

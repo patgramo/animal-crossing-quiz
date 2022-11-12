@@ -1,26 +1,34 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
+h1 {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
 }
-
 .container {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: row wrap;
   justify-content: center;
   align-items: center;
+  background-image: url("../public/images/background.jpg");
 }
-
+#personality-container {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: blueviolet;
+  width: auto;
+  margin: 5em 2em;
+  padding: 3em;
+}
 .question {
   text-align: center;
   border: 1px solid black;
-  padding: 1em;
-  width: 90%;
+  width: 100%;
+  overflow: auto;
 }
 
 .answers {
   display: flex;
   flex-flow: row wrap;
-  text-align: left;
+  justify-content: center;
   padding: 1em;
   width: 100%;
 }
@@ -32,6 +40,11 @@
   width: 40%;
   margin: 1em;
   cursor: pointer;
+}
+.individual-answer:hover {
+  box-shadow: 0px 5px 80px 0px;
+  /* width: 48%;
+  z-index: -1; */
 }
 
 .hide {
