@@ -6,14 +6,11 @@ export default function QuestionCards() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [nature, setNature] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
   const [month, setMonth] = useState();
-  const [catchphrase, setCatchphrase] = useState();
   const [villagerData, setVillagerData] = useState([]);
-  const [personalityDone, setPersonalityDone] = useState(false);
   const [birthdayWasClicked, setBirthdayWasClicked] = useState(false);
   const [catchphraseWasClicked, setCatchphraseWasClicked] = useState(false);
   const [villagerFinal, setVillagerFinal] = useState();
   const [villagerImage, setVillagerImage] = useState();
-
   useEffect(() => {
     console.log(villagerData);
   }, [villagerData]);
@@ -43,6 +40,7 @@ export default function QuestionCards() {
       }
     }
     getData();
+    console.log(birthdayWasClicked);
   }, [birthdayWasClicked]);
 
   useEffect(() => {
@@ -51,9 +49,17 @@ export default function QuestionCards() {
       const data = await response.json();
       if (catchphraseWasClicked) {
         setVillagerData(
-          villagerData.filter((obj) => {
-            return obj.catchphrase === catchphrase;
-          })
+          data
+            .map((obj) => ({
+              name: obj.name["name-USen"],
+              personality: obj.personality,
+              birthday: obj["birthday-string"].split(" ")[0],
+              catchphrase: obj["catch-phrase"],
+              image: obj["image_uri"]
+            }))
+            .filter((obj) => {
+              return obj.name === villagerFinal;
+            })
         );
       }
     }
@@ -117,16 +123,17 @@ export default function QuestionCards() {
       let newNature = nature.map((a, i) => a + uchiNature[i]);
       setNature(newNature);
     }
+    // This moves to the next question in the array. It is numbered by array index starting at 0
     const nextQuestion = currentQuestion + 1;
-    if (nextQuestion <= 5) {
+    if (nextQuestion <= 4) {
       setCurrentQuestion(nextQuestion);
-    } else if (nextQuestion > 5 && nextQuestion < 10) {
+    } else if (nextQuestion > 4 && nextQuestion < 9) {
       setCurrentQuestion(nextQuestion);
       document.getElementById("personality-container").classList.add("hide");
       document
         .getElementById("image-questions-container")
         .classList.remove("hide");
-    } else if (nextQuestion >= 10) {
+    } else if (nextQuestion >= 9) {
       personalityResults();
       document
         .getElementById("image-questions-container")
@@ -141,23 +148,37 @@ export default function QuestionCards() {
     document.getElementById("month-container").classList.add("hide");
     document.getElementById("catchphrase-container").classList.remove("hide");
   };
-  const handleCatchphraseAnswer = (catchphrases) => {
-    setCatchphrase(catchphrases);
+
+  const handleCatchphraseAnswer = (answer) => {
+    setVillagerFinal(answer);
     setCatchphraseWasClicked(true);
     console.log(villagerData);
     document.getElementById("catchphrase-container").classList.add("hide");
     document.getElementById("results").classList.remove("hide");
   };
-
-  const finalAnswer = () => {
-    setVillagerFinal(villagerData[0].name);
-    setVillagerImage(villagerData[0].image);
+  const handleFinalImage = (image) => {
+    setVillagerImage(image);
   };
-
+  // This resets the game //
+  const reset = () => {
+    setCurrentQuestion(0);
+    setNature([0, 0, 0, 0, 0, 0, 0, 0]);
+    setMonth();
+    setVillagerData([]);
+    setBirthdayWasClicked(false);
+    setCatchphraseWasClicked(false);
+    setVillagerFinal();
+    setVillagerImage();
+    document.getElementById("results").classList.add("hide");
+    document.getElementById("personality-container").classList.remove("hide");
+    console.log(villagerData);
+  };
   //
   //
   return (
+    // These are the first 5 questions with no images
     <div className="large-container">
+      <h1 className="title">Animal Crossing Quiz</h1>
       <div id="personality-container" className="container">
         <div className="question">
           <h1>{questionsArray[currentQuestion].question}</h1>
@@ -174,7 +195,7 @@ export default function QuestionCards() {
           ))}
         </div>
       </div>
-      {/* These are the image questions 7-10*/}
+      {/* These are the image questions 6-9*/}
       <div id="image-questions-container" className="container hide">
         <div className="question">
           <h1>{questionsArray[currentQuestion].question}</h1>
@@ -184,7 +205,7 @@ export default function QuestionCards() {
             <img
               src={answerOption.answerText}
               alt={answerOption.personality}
-              className="individual-answer"
+              className="individual-image-answer"
               key={answerOption.id}
               onClick={() => handleAnswerOptionClick(answerOption.personality)}
             />
@@ -194,12 +215,12 @@ export default function QuestionCards() {
       {/* This is the Month Question */}
       <div id="month-container" className="hide container">
         <div className="question">
-          <h1>{questionsArray[10].question}</h1>
+          <h1>{questionsArray[9].question}</h1>
         </div>
         <div className="answers">
-          {questionsArray[10].answers.map((answerOption) => (
+          {questionsArray[9].answers.map((answerOption) => (
             <button
-              className="individual-answer"
+              className="individual-month-answer"
               key={answerOption.id}
               onClick={() => handleBirthdayAnswer(answerOption.answerText)}
             >
@@ -216,11 +237,11 @@ export default function QuestionCards() {
         <div className="answers">
           {villagerData.map((object) => (
             <button
-              className="individual-answer"
+              className="individual-catchphrase-answer"
               key={object.catchphrase}
               onClick={(event) => {
-                handleCatchphraseAnswer(object.catchphrase);
-                finalAnswer();
+                handleCatchphraseAnswer(object.name);
+                handleFinalImage(object.image);
               }}
             >
               {object.catchphrase}
@@ -228,9 +249,18 @@ export default function QuestionCards() {
           ))}
         </div>
       </div>
-      <div id="results" className="hide">
+      <div id="results" className="hide container">
         <h1>Your villager is {villagerFinal}!</h1>
-        <img src={villagerImage} alt="villager" />
+        <img src={villagerImage} alt="villager" className="result-image" />
+        <br />
+        <button
+          id="reset"
+          onClick={() => {
+            reset();
+          }}
+        >
+          Play Again
+        </button>
       </div>
     </div>
   );
