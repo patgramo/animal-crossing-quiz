@@ -15,9 +15,11 @@ h1 {
   justify-content: center;
 }
 .title {
-  font-size: 3em;
+  font-size: 4em;
   color: #2d695e;
   text-align: center;
+  font-weight: 700;
+  text-shadow: 5px 5px 5px rgb(192, 191, 191);
 }
 .hide {
   display: none;
@@ -27,7 +29,7 @@ h1 {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 2em 2em;
+  margin: 1em 2em;
   border-radius: 2em;
   background-color: #2d695e;
   padding: 1em;
