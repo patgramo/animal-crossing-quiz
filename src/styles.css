@@ -5,7 +5,6 @@ html {
 h1 {
   margin-block-start: 0em;
   margin-block-end: 0em;
-  font-size: 1.5em;
 }
 
 .large-container {
@@ -15,7 +14,7 @@ h1 {
   justify-content: center;
 }
 .title {
-  font-size: 4em;
+  font-size: 8vw;
   color: #2d695e;
   text-align: center;
   font-weight: 700;
@@ -41,6 +40,7 @@ h1 {
   padding: 1em 0;
   color: #ecefd6;
   border-radius: 2em;
+  font-size: 2.5vw;
 }
 .answers {
   display: flex;
@@ -63,7 +63,7 @@ button {
   color: #2d695e;
   font-weight: bold;
   font-family: "Comic Neue", cursive;
-  font-size: 1em;
+  font-size: 2.5vw;
 }
 
 button:hover {
@@ -75,27 +75,34 @@ button:hover {
 .individual-image-answer {
   width: 40%;
   margin: 1em;
-  height: 200px;
   cursor: pointer;
 }
 .individual-image-answer:hover {
   box-shadow: 5px 5px 5px 1px black;
 }
 #results {
-  width: 65%;
+  width: 70%;
   background-color: #2d695e;
   text-align: center;
   color: white;
   font-size: 2em;
   padding: 1em;
   margin: 0;
+  overflow: contain;
 }
 
 .result-image {
   margin: 1em;
+  width: 50%;
 }
 
 @media all and (min-width: 900px) {
+  button {
+    font-size: 1.5vw;
+  }
+  .question {
+    font-size: 1.5vw;
+  }
   .individual-answer {
     width: 45%;
   }

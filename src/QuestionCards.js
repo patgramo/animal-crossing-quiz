@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import questionsArray from "../data/questionsArray";
+import questionsArray from "./questionsArray";
 import "./styles.css";
 
 export default function QuestionCards() {

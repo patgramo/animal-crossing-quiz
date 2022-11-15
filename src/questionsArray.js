@@ -64,7 +64,7 @@ export const questionsArray = [
       {
         id: 3,
         personality: "cranky",
-        answerText: "It's time to nasty spread a rumor about that person"
+        answerText: "It's time to spread a nasty rumor about that person"
       },
       {
         id: 4,
