@@ -123,6 +123,15 @@ button:hover {
   }
 }
 @media all and (min-width: 1000px) {
+  .title {
+    font-size: 5vw;
+  }
+  button {
+    font-size: 1.3vw;
+  }
+  .question {
+    font-size: 1.4vw;
+  }
   .result-image {
     width: 30%;
   }
