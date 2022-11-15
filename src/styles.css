@@ -14,7 +14,7 @@ h1 {
   justify-content: center;
 }
 .title {
-  font-size: 8vw;
+  font-size: 9vw;
   color: #2d695e;
   text-align: center;
   font-weight: 700;
@@ -40,7 +40,7 @@ h1 {
   padding: 1em 0;
   color: #ecefd6;
   border-radius: 2em;
-  font-size: 2.5vw;
+  font-size: 3vw;
 }
 .answers {
   display: flex;
@@ -49,12 +49,11 @@ h1 {
   width: 100%;
 }
 .individual-answer {
-  width: 80%;
+  width: 90%;
 }
 button {
   text-align: center;
   padding: 1em;
-  width: 40%;
   margin: 1em;
   cursor: pointer;
   background-color: #ecefd6;
@@ -63,7 +62,7 @@ button {
   color: #2d695e;
   font-weight: bold;
   font-family: "Comic Neue", cursive;
-  font-size: 2.5vw;
+  font-size: 4vw;
 }
 
 button:hover {
@@ -73,47 +72,61 @@ button:hover {
 }
 
 .individual-image-answer {
-  width: 40%;
+  width: 50%;
   margin: 1em;
   cursor: pointer;
 }
 .individual-image-answer:hover {
   box-shadow: 5px 5px 5px 1px black;
 }
+.individual-month-answer {
+  width: 40%;
+  margin: 10px;
+}
 #results {
   width: 70%;
   background-color: #2d695e;
   text-align: center;
   color: white;
-  font-size: 2em;
   padding: 1em;
   margin: 0;
   overflow: contain;
+  font-size: 5vw;
 }
-
 .result-image {
-  margin: 1em;
-  width: 50%;
+  margin: 10px;
+  width: 60%;
 }
 
-@media all and (min-width: 900px) {
+@media all and (min-width: 768px) {
   button {
-    font-size: 1.5vw;
+    font-size: 2vw;
   }
   .question {
-    font-size: 1.5vw;
+    font-size: 1.7vw;
   }
   .individual-answer {
     width: 45%;
   }
   .individual-image-answer {
     width: 30%;
-    height: 300px;
+    height: 200x;
   }
   .individual-month-answer {
-    width: 12%;
+    width: 15%;
   }
   .individual-catchphrase-answer {
     width: 15%;
+  }
+  #results {
+    font-size: 3vw;
+  }
+}
+@media all and (min-width: 1000px) {
+  .result-image {
+    width: 30%;
+  }
+  #results {
+    font-size: 2vw;
   }
 }
